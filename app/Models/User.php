@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable 
+class User extends Authenticatable
 {
     protected $table = 'users';
     use HasApiTokens, HasFactory, Notifiable;
@@ -53,16 +53,18 @@ class User extends Authenticatable
                 </span>' : '<span class="badge badge-warning">Inactivo</span>';
             }
         );
-         
+
     }
 
     protected function imagen() : Attribute{
+
         return Attribute::make(
             get: function(){
+
                 return $this->imagenes ? url('storage/'.$this->imagenes->url): asset('no-image.png');
             }
         );
-         
+
     }
 
 

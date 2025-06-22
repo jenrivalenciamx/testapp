@@ -11,7 +11,7 @@ use Livewire\Attributes\Title;
 
 #[Title('Categorias')]
 class CategoryComponent extends Component
-{   
+{
     use WithPagination;
     //Propiedades clase
     public $search='';
@@ -26,20 +26,20 @@ class CategoryComponent extends Component
         if($this->search!='')
         {
             $this->resetPage();
-        }    
+        }
         $this->totalRegistros = categorias::count();
-        $categories=categorias::where('nombre','like','%'.$this->search.'%') 
+        $categories=categorias::where('name','like','%'.$this->search.'%')
             ->orderBy('id','desc')
             ->paginate($this->cantidad);
         //$categories=categorias::all()->reverse();
        // $categories=collect();
         return view('livewire.category.category-component',[
-         'categories' => $categories  
+         'categories' => $categories
     ]);
     }
 
     public function mount(){
-        
+
 
     }
 
@@ -65,24 +65,24 @@ class CategoryComponent extends Component
         ];
         $this->validate($rules,$messages);
         $category = new categorias();
-        $category->nombre = $this->name;
+        $category->name = $this->name;
         $category->save();
-        
+
         $this->dispatch('close-modal','modalCategory');
         $this->dispatch('msg','Categoria creada correctamente');
         $this->reset(['name']);
     }
 
     public function edit(categorias $category)
-    {   
+    {
         $this->Id= $category->id;
-        $this->name=$category->nombre; 
+        $this->name=$category->name;
         //dump($category);
         $this->dispatch('open-modal','modalCategory');
     }
 
     public function update(categorias $category)
-    { 
+    {
        //dump($category);
        $rules=[
         'name' =>'required|min:5|max:255|unique:categorias,id,'.$this->Id
@@ -93,17 +93,17 @@ class CategoryComponent extends Component
         'name.max'=> 'El nombre no debe superar los 255 caracteres',
         'name.unique'=> 'El nombre de la categoria ya existe'
     ];
-    $this->validate($rules,$messages);  
-    $category->nombre=$this->name;
+    $this->validate($rules,$messages);
+    $category->name=$this->name;
     $category->update();
     $this->dispatch('close-modal','modalCategory');
     $this->dispatch('msg','Categoria editada correctamente');
-    $this->reset(['name']); 
-    } 
-    
+    $this->reset(['name']);
+    }
+
     #[On('destroyCategory')]
     public function destroy($id)
-    { 
+    {
        // dump($id);
        $category = categorias::findOrfail($id);
        $category->delete();
