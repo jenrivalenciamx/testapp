@@ -11,6 +11,7 @@
             <div class="row">
                 <div class="col-12 col-sm-5">
                     <div class="col-12">
+
                         <img src="{{ $product->imagen }}" class="product-image" alt="Product Image">
                     </div>
                     <div class="col-12 product-image-thumbs">

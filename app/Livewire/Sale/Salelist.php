@@ -27,14 +27,14 @@ class Salelist extends Component
 
 
     public function render()
-    {   
+    {
         if($this->search!='')
         {
             $this->resetPage();
-        }    
+        }
         $this->totalRegistros = ventas::count();
-        $ventasQuery=ventas::where('id','like','%'.$this->search.'%'); 
-            
+        $ventasQuery=ventas::where('id','like','%'.$this->search.'%');
+
         if($this->dateInicio && $this->dateFin)
         {
             $ventasQuery = $ventasQuery->whereBetween('fecha',[$this->dateInicio,$this->dateFin]);
@@ -56,7 +56,7 @@ class Salelist extends Component
     public function destroy($id)
     {
         $venta = ventas::findOrFail($id);
-       
+
         foreach($venta->items as $item)
         {
             productos::find($item->productos_id)->increment('stock',$item->cantidad);
@@ -73,5 +73,11 @@ class Salelist extends Component
       // dump($fechaInicio,$fechaFinal);
        $this->dateInicio = $fechaInicio;
        $this->dateFin = $fechaFinal;
+    }
+
+
+     public function edit(ventas $venta)
+    {
+        dd($venta);
     }
 }

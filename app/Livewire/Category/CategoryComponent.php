@@ -77,7 +77,7 @@ class CategoryComponent extends Component
     {
         $this->Id= $category->id;
         $this->name=$category->name;
-        //dump($category);
+       // dump($category);
         $this->dispatch('open-modal','modalCategory');
     }
 

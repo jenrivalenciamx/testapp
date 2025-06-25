@@ -56,4 +56,7 @@ Route::get('/sales/{venta}',SaleShow::class)->name('sales.show')->middleware(['a
 
 Route::get('/tienda', ShopComponent::class)->name('shops')->middleware(['auth']);
 
-Route::get('/sales/invoice/{venta}',[PdfController::class,'invoice'])->name('sales.invoice')->middleware(['auth']);
+Route::get('/sales/invoice/{sale}',[PdfController::class,'invoice'])->name('sales.invoice')->middleware(['auth']);
+//Route::get('products_link',[ProductController::class,'indextwo'])->name('product-page');
+
+//Route::get('/usuarios', UserComponent::class)->name('users')->middleware(['auth']);

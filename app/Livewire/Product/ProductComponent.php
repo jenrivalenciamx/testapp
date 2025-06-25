@@ -13,13 +13,13 @@ use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\Storage;
 
 #[Title('Productos')]
- 
+
 class ProductComponent extends Component
 {
 
     use WithFileUploads;
     use WithPagination;
-    //Propiedades clase    
+    //Propiedades clase
     public $search='';
     public $totalRegistros=0;
     public $cantidad=5;
@@ -38,7 +38,7 @@ class ProductComponent extends Component
     public $activo=1;
     public $imagen;
     public $imagenModelo;
-    
+
     public function render()
     {
        //$this->dispatch('open-modal','modalProduct');
@@ -63,12 +63,12 @@ class ProductComponent extends Component
     public function categorias()
     {
         return categorias::all();
-    
+
     }
 
     public function store(){
        // dump('crear producto');
-     
+
         $rules=[
             'nombre' => 'required|min:5|max:255|unique:productos',
             'descripcion' => 'max:255',
@@ -80,13 +80,13 @@ class ProductComponent extends Component
             'categoria_id' => 'required|numeric',
 
         ];
-      
+
           $this->validate($rules);
           $product = new productos();
           $customName= null;
 
-      
-        
+
+
         $product->nombre = $this->nombre;
         $product->descripcion = $this->descripcion;
         $product->precio_compra = $this->precio_compra;
@@ -101,42 +101,43 @@ class ProductComponent extends Component
 
         if($this->imagen)
         {
-           
+
             $customName='productos/'.uniqid().'.'.$this->imagen->extension();
             $this->imagen->storeAs('public',$customName);
            // dump($customName);
             $product->imagenes()->create(['url'=>$customName]);
         }
 
-        
+
         $this->dispatch('close-modal','modalProduct');
         $this->dispatch('msg','Producto creado correctamente');
         $this->clean();
- 
+
     }
 
 
     public function edit(productos $product)
-    {   
+    {
+        //dd("121");
         $this->Id= $product->id;
-        $this->nombre=$product->nombre; 
-        $this->descripcion=$product->descripcion; 
-        $this->precio_compra=$product->precio_compra; 
-        $this->precio_venta=$product->precio_venta; 
-        $this->stock=$product->stock; 
-        $this->stock_minimo=$product->stock_minimo; 
-        $this->imagenModelo=$product->imagen; 
-        $this->codigo_barras=$product->codigo_barras; 
-        $this->fecha_vencimiento=$product->fecha_vencimiento; 
-        $this->activo=$product->activo; 
-        $this->categoria_id=$product->categorias_id; 
+        $this->nombre=$product->nombre;
+        $this->descripcion=$product->descripcion;
+        $this->precio_compra=$product->precio_compra;
+        $this->precio_venta=$product->precio_venta;
+        $this->stock=$product->stock;
+        $this->stock_minimo=$product->stock_minimo;
+        $this->imagenModelo=$product->imagen;
+        $this->codigo_barras=$product->codigo_barras;
+        $this->fecha_vencimiento=$product->fecha_vencimiento;
+        $this->activo=$product->activo;
+        $this->categoria_id=$product->categorias_id;
         //dump($category);
         $this->dispatch('open-modal','modalProduct');
     }
 
 
     public function update(productos $product)
-    { 
+    {
        //dump($category);
        $rules=[
             'nombre' => 'required|min:5|max:255|unique:productos,id,'.$this->Id,
@@ -148,8 +149,8 @@ class ProductComponent extends Component
             'imagen' => 'image|max:1024|nullable',
             'categoria_id' => 'required|numeric',
     ];
-    
-    $this->validate($rules);  
+
+    $this->validate($rules);
     $product->nombre = $this->nombre;
     $product->descripcion = $this->descripcion;
     $product->precio_compra = $this->precio_compra;
@@ -162,45 +163,45 @@ class ProductComponent extends Component
     $product->activo = $this->activo;
     $product->update();
   // if(Storage::exists('public/'.$product->imagenes->url))
-   // {   
+   // {
         if($this->imagen)
         {
-            // dump('NO'.'public/'.$product->imagenes->url);   
+            // dump('NO'.'public/'.$product->imagenes->url);
             Storage::delete('public/'.$product->imagenes);
             $customName='productos/'.uniqid().'.'.$this->imagen->extension();
             $product->imagenes()->delete(['url'=>$customName]);
             $this->imagen->storeAs('public',$customName);
             $product->imagenes()->create(['url'=>$customName]);
-  
-        }    
+
+        }
     //}
     else
     {
       //  if($this->imagen)
-       // {    
-            //dump('SI'.'public/'.$product->imagenes->url.uniqid().'.'.$this->imagen->extension());  
-            
+       // {
+            //dump('SI'.'public/'.$product->imagenes->url.uniqid().'.'.$this->imagen->extension());
+
             $customName='productos/'.uniqid().'.'.$this->imagen->extension();
             $this->imagen->storeAs('public',$customName);
-            $product->imagenes()->create(['url'=>$customName]); 
-        //}    
+            $product->imagenes()->create(['url'=>$customName]);
+        //}
 
     }
-     
- 
+
+
 
     $this->dispatch('close-modal','modalProduct');
     $this->dispatch('msg','Producto editado correctamente');
-    $this->clean(); 
-    } 
+    $this->clean();
+    }
 
     #[On('destroyProduct')]
     public function destroy($id)
-    { 
+    {
        // dump($id);
        $product = productos::findOrfail($id);
 
-       
+
            if($product->imagenes!=null)
            {
               // dump($product->imagenes->url);
@@ -208,12 +209,12 @@ class ProductComponent extends Component
                //Storage::delete($product->imagenes->url);
                // dump($product->imagenes->url);
                $customName=$product->imagenes->url;
-                       
+
                $product->imagenes()->delete(['url'=>$customName]);
-           
+
            }
-   
-      
+
+
 
        $product->delete();
        $this->dispatch('msg','Producto a sido eliminado correctamente');
