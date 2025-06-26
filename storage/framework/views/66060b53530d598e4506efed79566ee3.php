@@ -24,9 +24,15 @@
 
         
 
-        
+        <?php echo $__env->make('home.card-graph', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
         
+
+        <?php echo $__env->make('home.boxes-reports', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+
+        
+
+        <?php echo $__env->make('home.tables-reports', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
         
 

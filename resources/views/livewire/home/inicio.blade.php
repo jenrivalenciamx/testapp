@@ -13,17 +13,17 @@
 
         @include('home.row-cards-sales')
 
-        {{-- Card grafica
+        {{-- Card grafica --}}
 
-        @include('home.card-graph') --}}
+        @include('home.card-graph')
 
-        {{-- Boxes reports
+        {{-- Boxes reports --}}
 
-        @include('home.boxes-reports') --}}
+        @include('home.boxes-reports')
 
-        {{-- Tablas reportes productos
+        {{-- Tablas reportes productos --}}
 
-        @include('home.tables-reports') --}}
+        @include('home.tables-reports')
 
         {{-- Mejores vendedores y compradores
 
